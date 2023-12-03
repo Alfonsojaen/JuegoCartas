@@ -11,6 +11,7 @@ public class Card {
         this.suit = suit;
     }
     public Card(){
+
         this(-1,"");
     }
 
@@ -23,10 +24,12 @@ public class Card {
     }
 
     public String getSuit() {
+
         return suit;
     }
 
     public void setSuit(String suit) {
+
         this.suit = suit;
     }
 
