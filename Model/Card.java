@@ -5,12 +5,12 @@ import java.util.Objects;
 public class Card {
     private int value;
     private String suit;
-    //private String values[] = new String []{"2","3","4","5","6","7","8","9","10","J","Q","K","AS"};
 
     public Card(int value, String suit){
         this.value = value;
         this.suit = suit;
     }
+
     public Card(){
 
         this(-1,"");
@@ -44,10 +44,21 @@ public class Card {
 
     @Override
     public String toString() {
-        return "Card{" +
-                "value=" + value +
-                ", suit='" + suit + '\'' +
-                '}';
+        return  ("┌─────────┐")+
+                "\n"+
+        "│         │"+
+                "\n"+
+        "│    " +value+"    │"+
+                "\n"+
+        "│         │"+
+                "\n"+
+        "│  "+ suit +"  │"+
+                "\n"+
+        "│         │"+
+                "\n"+
+        "│    " +value+"    │"+
+                "\n"+
+        "└─────────┘";
     }
 }
 
