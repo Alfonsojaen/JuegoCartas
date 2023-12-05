@@ -6,14 +6,14 @@ public class Card {
     private int value;
     private String suit;
 
-    public Card(int value, String suit){
+    public Card(int value, String suit) {
         this.value = value;
         this.suit = suit;
     }
 
-    public Card(){
+    public Card() {
 
-        this(-1,"");
+        this(-1, "");
     }
 
     public int getValue() {
@@ -44,21 +44,46 @@ public class Card {
 
     @Override
     public String toString() {
-        return  ("┌─────────┐")+
-                "\n"+
-        "│         │"+
-                "\n"+
-        "│    " +value+"    │"+
-                "\n"+
-        "│         │"+
-                "\n"+
-        "│  "+ suit +"  │"+
-                "\n"+
-        "│         │"+
-                "\n"+
-        "│    " +value+"    │"+
-                "\n"+
-        "└─────────┘";
+        String stringValue ="";
+        switch (value) {
+            case 1:
+                stringValue = "As";
+                break;
+            case 11:
+                stringValue = "J";
+                break;
+            case 12:
+                stringValue = "Q";
+                break;
+            case 13:
+                stringValue = "K";
+                break;
+            default:
+                stringValue = String.valueOf(value);
+        }
+
+
+            return ("┌─────────────┐") +
+                    "\n" +
+                    "│             │" +
+                    "\n" +
+                    "│    " + stringValue + "        │" +
+                    "\n" +
+                    "│             │" +
+                    "\n" +
+                    "│  " + suit + "   │" +
+                    "\n" +
+                    "│             │" +
+                    "\n" +
+                    "│    " + stringValue + "        │" +
+                    "\n" +
+                    "└─────────────┘" +
+                    "\n"
+                    ;
+
+
     }
 }
+
+
 

@@ -1,12 +1,13 @@
 package Model;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 public class Deck {
     private String[] suit = new String[]{"Picas", "Corazones", "Diamantes", "Trevoles"};
     private Card[] cards = new Card[52];
-
-    //private String values[] = new String []{"2","3","4","5","6","7","8","9","10","J","Q","K","AS"};
 
     // Constructor
     public Deck() {
@@ -19,16 +20,25 @@ public class Deck {
 
     }
 
-    // Coger una carta del mazo
-    public Card getCard() {
+    @Override
+    public String toString() {
+        StringBuffer cardsString = new StringBuffer("");
+        for(int i=0;i<cards.length;i++){
+            cardsString.append(cards[i].toString());
+        }
+        return cardsString.toString();
+    }
+    // Coger una carta aleatoria del mazo
+    public Card getCardRamdon() {
         int num = 0;
         if (num >= 52) {
                 return null;
         }
         return cards[num++];
-        //Card currentCard = cards[num++];
-        //currentCard.displayCard(); // Muestra la carta obtenida de manera bonita
-        //return currentCard;
+    }
+    public void ShuffleDeck(){
+        Collections.shuffle(Arrays.asList(cards));
+
     }
 
     // Comprueba si hay mas cartas.
