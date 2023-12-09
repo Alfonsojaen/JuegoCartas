@@ -47,10 +47,13 @@ public class Main {
         for (int i = 0; i < numberOfPlayers; i++) {
             System.out.println("Introduce el nombre del Jugador " + (i + 1) + ":");
             String playerName = teclado.nextLine();
-            players[i] = new Players(playerName, 2); // Se define para que tenga una mano de dos cartas
-        }
+            players[i] = new Players(playerName, 15); // Se define para que tenga una mano de dos cartas
 
+        }
         for (Players player : players) {
+            player.drawCard(deck);
+            player.drawCard(deck);
+            player.showHand();
 
             while (true) {
                 System.out.println("Valor de la mano de " + player.getName() + ": " + player.calculateHandValue());
@@ -67,6 +70,28 @@ public class Main {
 
                 }
             }
+        }
+        int maxHandValue = 0;
+        String winner = "";
+
+        for (Players player : players) {
+            int handValue = player.calculateHandValue();
+
+            if (handValue <= 21 && handValue > maxHandValue) {
+                maxHandValue = handValue;
+                winner = player.getName();
+            }
+        }
+
+        if (!winner.isEmpty()) {
+            System.out.println("\033[34m*--------------------------------------------*");
+            System.out.println("\033[32m*         EL GANADOR DEL BLACKJACK ES:       *");
+            System.out.println("\033[32m*                  "+winner+"                *");
+            System.out.println("\033[32m*               CON UN VALOR DE              *");
+            System.out.println("\033[33m*                      "+maxHandValue+"      *");
+            System.out.println("\033[34m*--------------------------------------------*");
+        } else {
+            System.out.println("No hay ganador. Todos los jugadores se han pasado de 21.");
         }
 
         teclado.close();

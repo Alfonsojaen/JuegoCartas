@@ -24,18 +24,37 @@ public class Players {
     }
 
     public void setName(String name) {
-        this.name = name;
+
+            this.name = name;
     }
     public int calculateHandValue() {
         int handValue = 0;
+        int numAces = 0;
+
         for (int i = 0; i < numCards; i++) {
-            handValue += hand[i].getValue();
+            int cardValue = hand[i].getValue();
+
+            if (cardValue == 1) {
+                numAces++;
+            } else if (cardValue >= 11 && cardValue <= 13) {
+                cardValue = 10; // Asignar 10 para J, Q, K
+            }
+
+            handValue += cardValue;
         }
+
+        // Considerar el valor de los Ases según convenga para no pasarse de 21
+        while (numAces > 0 && handValue + 10 <= 21) {
+            handValue += 10;
+            numAces--;
+        }
+
         return handValue;
     }
+
     public void drawCard(Deck deck) {
         deck.ShuffleDeck();
-            Card drawnCard = deck.getCardRamdon();
+            Card drawnCard = deck.getCardRandom();
             if (drawnCard != null && numCards < hand.length) {
                 hand[numCards] = drawnCard;
                 numCards++;
