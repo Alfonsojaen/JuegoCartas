@@ -1,7 +1,7 @@
 package View;
 
 import Model.Deck;
-import Players.Players;
+import Model.Players;
 
 import java.util.Scanner;
 
@@ -51,7 +51,9 @@ public class Main {
         }
 
         for (Players player : players) {
+
             while (true) {
+                System.out.println("Valor de la mano de " + player.getName() + ": " + player.calculateHandValue());
                 System.out.println(player.getName() + ", ¿deseas otra carta? (sí/no)");
                 String response = teclado.nextLine().toLowerCase();
 
@@ -62,6 +64,7 @@ public class Main {
                     break;
                 } else {
                     System.out.println("Respuesta no válida. Por favor, responde 'sí' o 'no'.");
+
                 }
             }
         }

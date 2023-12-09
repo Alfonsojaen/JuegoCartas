@@ -1,8 +1,6 @@
 package Test;
 
-import Model.Card;
 import Model.Deck;
-import Players.Players;
 
 import java.util.Scanner;
 
