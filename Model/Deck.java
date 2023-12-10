@@ -36,6 +36,7 @@ public class Deck {
     }
 
     public void ShuffleDeck() {
+
         Collections.shuffle(Arrays.asList(cards));
     }
 
