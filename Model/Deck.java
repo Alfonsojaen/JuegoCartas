@@ -1,9 +1,6 @@
 package Model;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 
 public class Deck {
     private String[] suit = new String[]{"Picas", "Corazones", "Diamantes", "Trevoles"};
@@ -36,8 +33,15 @@ public class Deck {
     }
 
     public void ShuffleDeck() {
+        Random random = new Random();
 
-        Collections.shuffle(Arrays.asList(cards));
+        int deckSize = cards.length;
+        for (int i = 0; i < deckSize; i++) {
+            int randomIndex = i + random.nextInt(deckSize - i);
+            Card temp = cards[randomIndex];
+            cards[randomIndex] = cards[i];
+            cards[i] = temp;
+        }
     }
 
     public boolean hasMoreCards() {

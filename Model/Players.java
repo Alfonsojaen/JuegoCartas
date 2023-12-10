@@ -25,7 +25,6 @@ public class Players {
 
     public void setName(String name) {
 
-            this.name = name;
     }
     public int calculateHandValue() {
         int handValue = 0;
@@ -43,7 +42,6 @@ public class Players {
             handValue += cardValue;
         }
 
-        // Considerar el valor de los Ases según convenga para no pasarse de 21
         while (numAces > 0 && handValue + 10 <= 21) {
             handValue += 10;
             numAces--;

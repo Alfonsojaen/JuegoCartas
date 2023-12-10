@@ -17,12 +17,12 @@ public class GameController {
 
         while (true) {
             try {
-                System.out.println("\033[33mPor favor, ingrese el número de jugadores (Entre 1 y 4) *Si eres una persona solo, jugarás contra la IA*: ");
+                System.out.println("\033[33mPor favor, ingrese el número de jugadores (Entre 1 y 4) *Si eres una persona sola, jugarás contra la IA*: ");
                 int numberOfPlayers = teclado.nextInt();
 
                 if (numberOfPlayers >= 1 && numberOfPlayers <= 4) {
                     System.out.println("\033[36m¡Genial! El juego comenzará con " + numberOfPlayers + " jugadores.");
-                    teclado.nextLine(); // Consumir el salto de línea pendiente después del próximo entero
+                    teclado.nextLine();
                     return numberOfPlayers;
                 } else {
                     System.out.println("\033[31mLo siento, pero el número de jugadores debe estar entre 1 y 4. Por favor, ingrese nuevamente: ");
@@ -42,11 +42,10 @@ public class GameController {
         Players[] players;
 
         if (numberOfPlayers == 1) {
-            // Si solo hay un jugador, se jugará contra la IA
-            players = new Players[2]; // Creamos un array con dos elementos: jugador e IA
+            players = new Players[2];
             System.out.println("Introduce tu nombre:");
             String playerName = teclado.nextLine();
-            players[0] = new Players(playerName, 15); // Jugador humano
+            players[0] = new Players(playerName, 15);
             players[1] = new Players("IA", 15); // Nombre predeterminado para la IA
         } else {
             players = new Players[numberOfPlayers]; // Si hay más de un jugador, creamos el array normalmente

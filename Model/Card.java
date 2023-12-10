@@ -61,21 +61,39 @@ public class Card {
             default:
                 stringValue = String.valueOf(value);
         }
+        //String suitSymbol = "";
+
+        // Asignar el símbolo del palo correspondiente
+        //switch (suit) {
+            //case "Corazones":
+           //     suitSymbol = "♥";
+            //    break;
+           // case "Diamantes":
+           //     suitSymbol = "♦";
+            //    break;
+        // case "Treboles":
+        //    suitSymbol = "♣";
+        //    break;
+        //  case "Picas":
+        //     suitSymbol = "♠";
+        //    break;
+
+        // }
 
 
             return ("┌─────────────┐") +
                     "\n" +
                     "│             │" +
                     "\n" +
-                    "│    " + stringValue + "        │" +
+                    "│     " + stringValue + "      │" +
                     "\n" +
                     "│             │" +
                     "\n" +
-                    "│  " + suit + "   │" +
+                    "│      " +suit+//suitSymbol + "      │" +
                     "\n" +
                     "│             │" +
                     "\n" +
-                    "│    " + stringValue + "        │" +
+                    "│      " + stringValue + "      │" +
                     "\n" +
                     "└─────────────┘" +
                     "\n"
