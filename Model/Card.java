@@ -5,37 +5,37 @@ import View.View;
 import java.util.Objects;
 
 public class Card {
+    /**
+     * Atributos privados para el valor y el palo de la carta ç
+     */
     private int value;
     private String suit;
 
+    /**
+     * Constructor que inicializa una carta con un valor y un palo dados
+     */
     public Card(int value, String suit) {
         this.value = value;
         this.suit = suit;
     }
 
+    /**
+     * Constructor por defecto que inicializa una carta con valores predeterminados
+     */
     public Card() {
-
         this(-1, "");
     }
 
+    /**
+     * Método para obtener el valor de la carta
+     */
     public int getValue() {
         return value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
-    }
-
-    public String getSuit() {
-
-        return suit;
-    }
-
-    public void setSuit(String suit) {
-
-        this.suit = suit;
-    }
-
+    /**
+     * Sobrescritura del método equals para comparar cartas basadas en valor y palo
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,6 +44,10 @@ public class Card {
         return value == card.value && Objects.equals(suit, card.suit);
     }
 
+    /**
+     * Sobrescritura del método toString para generar una representación visual de la carta
+     * @return Genera la representación visual de la carta
+     */
     @Override
     public String toString() {
         String stringValue = View.obtenerValorCarta(value);
@@ -59,6 +63,3 @@ public class Card {
                 "└─────────────┘");
     }
 }
-
-
-
