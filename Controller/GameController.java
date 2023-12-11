@@ -8,32 +8,6 @@ import java.util.Scanner;
 
 public class GameController {
 
-    public static int getNumberOfPlayers() {
-        Scanner teclado = new Scanner(System.in);
-        System.out.println("\033[34m--------------------------------------------");
-        System.out.println("\033[32m         EL CASINO DE ALFONSOJAÉN      ");
-        System.out.println("\033[32m         Bienvenido al Blackjack!      ");
-        System.out.println("\033[34m--------------------------------------------");
-
-        while (true) {
-            try {
-                System.out.println("\033[33mPor favor, ingrese el número de jugadores (Entre 1 y 4) *Si eres una persona sola, jugarás contra la IA*: ");
-                int numberOfPlayers = teclado.nextInt();
-
-                if (numberOfPlayers >= 1 && numberOfPlayers <= 4) {
-                    System.out.println("\033[36m¡Genial! El juego comenzará con " + numberOfPlayers + " jugadores.");
-                    teclado.nextLine();
-                    return numberOfPlayers;
-                } else {
-                    System.out.println("\033[31mLo siento, pero el número de jugadores debe estar entre 1 y 4. Por favor, ingrese nuevamente: ");
-                }
-            } catch (Exception e) {
-                System.out.println("\033[31mLo siento, pero su entrada no es un número válido. Por favor, ingrese nuevamente: ");
-                teclado.nextLine(); // Limpiar el buffer del scanner
-            }
-        }
-    }
-
     public static void startGame(int numberOfPlayers) {
         Scanner teclado = new Scanner(System.in);
         Deck deck = new Deck();
@@ -44,14 +18,42 @@ public class GameController {
         if (numberOfPlayers == 1) {
             players = new Players[2];
             System.out.println("Introduce tu nombre:");
-            String playerName = teclado.nextLine();
+            String playerName = "";
+            boolean validName = false;
+
+            while (!validName) {
+                try {
+                    playerName = teclado.nextLine();
+                    if (playerName.matches(".*\\d+.*") || playerName.toUpperCase().contains("IA")) {
+                        throw new IllegalArgumentException("El nombre no puede contener números ni la palabra 'IA'. Introduce otro nombre:");
+                    }
+                    validName = true;
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
             players[0] = new Players(playerName, 15);
             players[1] = new Players("IA", 15); // Nombre predeterminado para la IA
         } else {
             players = new Players[numberOfPlayers]; // Si hay más de un jugador, creamos el array normalmente
             for (int i = 0; i < numberOfPlayers; i++) {
                 System.out.println("Introduce el nombre del Jugador " + (i + 1) + ":");
-                String playerName = teclado.nextLine();
+                String playerName = "";
+                boolean validName = false;
+
+                while (!validName) {
+                    try {
+                        playerName = teclado.nextLine();
+                        if (playerName.matches(".*\\d+.*") || playerName.toUpperCase().contains("IA")) {
+                            throw new IllegalArgumentException("El nombre no puede contener números ni la palabra 'IA'. Introduce otro nombre:");
+                        }
+                        validName = true;
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+
                 players[i] = new Players(playerName, 15);
             }
         }
@@ -65,7 +67,9 @@ public class GameController {
             player.drawCard(deck);
             player.showHand();
 
-            while (true) {
+            boolean playerWantsToContinue = true; // Variable de control
+
+            while (playerWantsToContinue) {
                 System.out.println("Valor de la mano de " + player.getName() + ": " + player.calculateHandValue());
 
                 if (player.getName().equals("IA")) {
@@ -75,7 +79,7 @@ public class GameController {
                         player.drawCard(deck);
                         player.showHand();
                     } else {
-                        break;
+                        playerWantsToContinue = false;
                     }
                 } else {
                     System.out.println(player.getName() + ", ¿deseas otra carta? (sí/no)");
@@ -85,14 +89,14 @@ public class GameController {
                         player.drawCard(deck);
                         player.showHand();
                     } else if (response.equals("no")) {
-                        break;
+                        playerWantsToContinue = false;
                     } else {
                         System.out.println("Respuesta no válida. Por favor, responde 'sí' o 'no'.");
-
                     }
                 }
             }
         }
+
             int maxHandValue = 0;
             String winner = "";
 
@@ -104,14 +108,13 @@ public class GameController {
                     winner = player.getName();
                 }
             }
-
             if (!winner.isEmpty()) {
-                System.out.println("\033[34m*--------------------------------------------*");
-                System.out.println("\033[32m*         EL GANADOR DEL BLACKJACK ES:       *");
-                System.out.println("\033[32m*                  " + winner + "                *");
-                System.out.println("\033[32m*               CON UN VALOR DE              *");
-                System.out.println("\033[33m*                      " + maxHandValue + "      *");
-                System.out.println("\033[34m*--------------------------------------------*");
+                System.out.println("\033[34m*--------------------------------------------");
+                System.out.println("\033[32m*         EL GANADOR DEL BLACKJACK ES:       ");
+                System.out.println("\033[33m*                    " + winner + "                ");
+                System.out.println("\033[32m*               CON UN VALOR DE              ");
+                System.out.println("\033[33m*                      " + maxHandValue + "      ");
+                System.out.println("\033[34m*--------------------------------------------");
             } else {
                 System.out.println("No hay ganador. Todos los jugadores se han pasado de 21.");
             }

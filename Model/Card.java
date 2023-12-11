@@ -1,5 +1,7 @@
 package Model;
 
+import View.View;
+
 import java.util.Objects;
 
 public class Card {
@@ -44,62 +46,17 @@ public class Card {
 
     @Override
     public String toString() {
-        String stringValue ="";
-        switch (value) {
-            case 1:
-                stringValue = "As";
-                break;
-            case 11:
-                stringValue = "J";
-                break;
-            case 12:
-                stringValue = "Q";
-                break;
-            case 13:
-                stringValue = "K";
-                break;
-            default:
-                stringValue = String.valueOf(value);
-        }
-        //String suitSymbol = "";
+        String stringValue = View.obtenerValorCarta(value);
 
-        // Asignar el símbolo del palo correspondiente
-        //switch (suit) {
-            //case "Corazones":
-           //     suitSymbol = "♥";
-            //    break;
-           // case "Diamantes":
-           //     suitSymbol = "♦";
-            //    break;
-        // case "Treboles":
-        //    suitSymbol = "♣";
-        //    break;
-        //  case "Picas":
-        //     suitSymbol = "♠";
-        //    break;
-
-        // }
-
-
-            return ("┌─────────────┐") +
-                    "\n" +
-                    "│             │" +
-                    "\n" +
-                    "│     " + stringValue + "      │" +
-                    "\n" +
-                    "│             │" +
-                    "\n" +
-                    "│      " +suit+//suitSymbol + "      │" +
-                    "\n" +
-                    "│             │" +
-                    "\n" +
-                    "│      " + stringValue + "      │" +
-                    "\n" +
-                    "└─────────────┘" +
-                    "\n"
-                    ;
-
-
+        return ("┌─────────────┐\n" +
+                "│             │\n" +
+                "│   " + stringValue + "        │\n" +
+                "│             │\n" +
+                "│      " + suit + "      │\n" +
+                "│             │\n" +
+                "│        " + stringValue + "   │\n" +
+                "│             │\n" +
+                "└─────────────┘");
     }
 }
 

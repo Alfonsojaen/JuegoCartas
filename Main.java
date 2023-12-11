@@ -1,8 +1,9 @@
 import Controller.GameController;
+import View.View;
 
 public class Main {
     public static void main(String[] args) {
-                int numberOfPlayers = GameController.getNumberOfPlayers();
+                int numberOfPlayers = View.getNumberOfPlayers();
                 GameController.startGame(numberOfPlayers);
             }
         }
