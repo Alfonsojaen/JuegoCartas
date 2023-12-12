@@ -50,10 +50,7 @@ public class View {
             System.out.println("######## ########     ######  ##     ##  ######  #### ##    ##  #######     ########  ########    ##     ## ######## ##        #######  ##    ##  ######   #######");
             System.out.println("\033[32m--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
             System.out.println("\033[31m--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-            //System.out.println("\033[34m--------------------------------------------");
-           // System.out.println("\033[32m         EL CASINO DE ALFONSOJAÉN      ");
-          //  System.out.println("\033[32m         Bienvenido al Blackjack!      ");
-           // System.out.println("\033[34m--------------------------------------------");
+
         }
 
         /**
@@ -64,10 +61,14 @@ public class View {
             Scanner teclado = new Scanner(System.in);
             while (true) {
                 try {
-                    System.out.println("\033[33mPor favor, ingrese el número de jugadores (Entre 1 y 4) *Si eres una persona sola, jugarás contra la IA*: ");
+                    System.out.println("\033[33m Blackjack! Por favor, ingrese el número de jugadores (Entre 1 y 4) *Si eres una persona sola, jugarás contra la IA*: ");
                     int numberOfPlayers = teclado.nextInt();
 
-                    if (numberOfPlayers >= 1 && numberOfPlayers <= 4) {
+                    if (numberOfPlayers == 1) {
+                        System.out.println("\033[36m¡Genial! El juego comenzará con un jugador.");
+                        teclado.nextLine();
+                        return 1; // Si el jugador ingresa 1, se establece el número de jugadores a 1 (jugador humano solamente)
+                    } else if (numberOfPlayers >= 2 && numberOfPlayers <= 4) {
                         System.out.println("\033[36m¡Genial! El juego comenzará con " + numberOfPlayers + " jugadores.");
                         teclado.nextLine();
                         return numberOfPlayers;
@@ -85,13 +86,16 @@ public class View {
     public static void Resultado (Players[] players){
         // Determinar al ganador y mostrar el resultado
 
+        // Variables para almacenar la mano más alta, el ganador y si hay empate
         int maxHandValue = 0;
         String winner = "";
         boolean isDraw = false;
 
+        // Iterar a través de los jugadores para determinar la mano más alta y al posible ganador
         for (Players player : players) {
             int handValue = player.calculateHandValue();
 
+            // Verificar si la mano del jugador está por debajo o igual a 21 y es más alta que la mano máxima actual
             if (handValue <= 21 && handValue > maxHandValue) {
                 maxHandValue = handValue;
                 winner = player.getName();
@@ -101,6 +105,7 @@ public class View {
             }
         }
 
+        // Contar la cantidad de jugadores con la misma mano más alta para determinar si hay un empate total
         int countWinners = 0;
         for (Players player : players) {
             int handValue = player.calculateHandValue();
