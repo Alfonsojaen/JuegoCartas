@@ -1,5 +1,7 @@
 package View;
 
+import Model.Players;
+
 import java.util.Scanner;
 public class View {
         /**
@@ -36,12 +38,22 @@ public class View {
         /**
          * Método para imprimir el mensaje de inicio del juego.
          */
-        public static void Inicio() {
-            Scanner teclado = new Scanner(System.in);
-            System.out.println("\033[34m--------------------------------------------");
-            System.out.println("\033[32m         EL CASINO DE ALFONSOJAÉN      ");
-            System.out.println("\033[32m         Bienvenido al Blackjack!      ");
-            System.out.println("\033[34m--------------------------------------------");
+        public static void MensajeInicio() {
+            System.out.println("\033[31m--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.println("\033[32m--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.println("\033[34m######## ##           ######     ###     ######  #### ##    ##  #######     ########  ########       ###    ##       ########  #######  ##    ##  ######   #######");
+            System.out.println("##       ##          ##    ##   ## ##   ##    ##  ##  ###   ## ##     ##    ##     ## ##            ## ##   ##       ##       ##     ## ###   ## ##    ## ##     ##");
+            System.out.println("##       ##          ##        ##   ##  ##        ##  ####  ## ##     ##    ##     ## ##           ##   ##  ##       ##       ##     ## ####  ## ##       ##     ##");
+            System.out.println("######   ##          ##       ##     ##  ######   ##  ## ## ## ##     ##    ##     ## ######      ##     ## ##       ######   ##     ## ## ## ##  ######  ##     ##");
+            System.out.println("##       ##          ##       #########       ##  ##  ##  #### ##     ##    ##     ## ##          ######### ##       ##       ##     ## ##  ####       ## ##     ##");
+            System.out.println("##       ##          ##    ## ##     ## ##    ##  ##  ##   ### ##     ##    ##     ## ##          ##     ## ##       ##       ##     ## ##   ### ##    ## ##     ##");
+            System.out.println("######## ########     ######  ##     ##  ######  #### ##    ##  #######     ########  ########    ##     ## ######## ##        #######  ##    ##  ######   #######");
+            System.out.println("\033[32m--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.println("\033[31m--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            //System.out.println("\033[34m--------------------------------------------");
+           // System.out.println("\033[32m         EL CASINO DE ALFONSOJAÉN      ");
+          //  System.out.println("\033[32m         Bienvenido al Blackjack!      ");
+           // System.out.println("\033[34m--------------------------------------------");
         }
 
         /**
@@ -50,7 +62,6 @@ public class View {
          */
         public static int getNumberOfPlayers() {
             Scanner teclado = new Scanner(System.in);
-            View.Inicio();
             while (true) {
                 try {
                     System.out.println("\033[33mPor favor, ingrese el número de jugadores (Entre 1 y 4) *Si eres una persona sola, jugarás contra la IA*: ");
@@ -69,4 +80,48 @@ public class View {
                 }
             }
         }
+
+
+    public static void Resultado (Players[] players){
+        // Determinar al ganador y mostrar el resultado
+
+        int maxHandValue = 0;
+        String winner = "";
+        boolean isDraw = false;
+
+        for (Players player : players) {
+            int handValue = player.calculateHandValue();
+
+            if (handValue <= 21 && handValue > maxHandValue) {
+                maxHandValue = handValue;
+                winner = player.getName();
+                isDraw = false;
+            } else if (handValue <= 21 && handValue == maxHandValue) {
+                isDraw = true;
+            }
+        }
+
+        int countWinners = 0;
+        for (Players player : players) {
+            int handValue = player.calculateHandValue();
+            if (handValue == maxHandValue) {
+                countWinners++;
+            }
+        }
+
+        if (countWinners == players.length && isDraw) {
+            System.out.println("¡Es un empate! Todos los jugadores tienen la misma puntuación.");
+        } else if (!winner.isEmpty() && !isDraw) {
+            // Mostrar al ganador y el valor de su mano
+            System.out.println("\033[34m*--------------------------------------------");
+            System.out.println("\033[32m*         EL GANADOR DEL BLACKJACK ES:       ");
+            System.out.println("\033[33m*                    " + winner + "                ");
+            System.out.println("\033[32m*               CON UN VALOR DE              ");
+            System.out.println("\033[33m*                      " + maxHandValue + "      ");
+            System.out.println("\033[34m*--------------------------------------------");
+        } else {
+            System.out.println("No hay un claro ganador. Todos los jugadores se han pasado de 21 o tienen la misma puntuación.");
+        }
+
+    }
     }

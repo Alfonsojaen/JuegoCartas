@@ -1,11 +1,5 @@
 package Model;
 
-import Model.Card;
-import Model.Deck;
-
-import java.util.Arrays;
-import java.util.Collections;
-
 public class Players {
 
     /**
@@ -93,10 +87,12 @@ public class Players {
     /**
      * Método para mostrar las cartas en la mano del jugador
      */
-    public void showHand() {
-        System.out.println("Jugador/a " + name + " :");
+    public String showHand() {
+        StringBuffer stringHand = new StringBuffer("");
+        stringHand.append("Jugador/a " + name + " :\n");
         for (int i = 0; i < numCards; i++) {
-            System.out.println(hand[i]);
+            stringHand.append(hand[i]);
         }
+        return stringHand.toString();
     }
 }

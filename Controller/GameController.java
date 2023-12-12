@@ -1,16 +1,29 @@
+package Controller;
+
 import Model.Deck;
 import Model.IA;
 import Model.Players;
+import View.View;
 
 import java.util.Scanner;
 
-public class Game {
+public class GameController {
+
+public static void Start() {
+    //Mensaje de incio
+    View.MensajeInicio();
+    // Obtener el número de jugadores utilizando el método getNumberOfPlayers() de la clase View
+    int numberOfPlayers = View.getNumberOfPlayers();
+    // Iniciar el juego con el número de jugadores obtenido
+    PedirNombre(numberOfPlayers);
+
+}
     /**
-     * Método para iniciar el juego.
+     * Método para pedir los jugadores y iniciar el juego.
      *
      * @param numberOfPlayers Número de jugadores que participarán en el juego.
      */
-    public static void startGame(int numberOfPlayers) {
+    public static void PedirNombre(int numberOfPlayers) {
         Scanner teclado = new Scanner(System.in);
         Deck deck = new Deck();
         deck.ShuffleDeck();
@@ -68,20 +81,20 @@ public class Game {
 
         playGame(teclado, deck, players);
     }
+/**
+ * Método principal para ejecutar el juego.
+ *
+ * @param teclado Scanner para la entrada del usuario.
+ * @param deck    Mazo de cartas utilizado en el juego.
+ * @param players Arreglo de jugadores que participan en el juego.
+ */
 
-    /**
-     * Método principal para ejecutar el juego.
-     *
-     * @param teclado Scanner para la entrada del usuario.
-     * @param deck    Mazo de cartas utilizado en el juego.
-     * @param players Arreglo de jugadores que participan en el juego.
-     */
     public static void playGame(Scanner teclado, Deck deck, Players[] players) {
         // Lógica del juego para cada jugador
         for (Players player : players) {
             player.drawCard(deck);
             player.drawCard(deck);
-            player.showHand();
+            System.out.println(player.showHand());
 
             boolean playerWantsToContinue = true; // Variable de control
 
@@ -93,7 +106,7 @@ public class Game {
                     boolean shouldHit = IA.decideHitOrStand(player);
                     if (shouldHit) {
                         player.drawCard(deck);
-                        player.showHand();
+                        System.out.println(player.showHand());
                     } else {
                         playerWantsToContinue = false;
                     }
@@ -103,7 +116,7 @@ public class Game {
 
                     if (response.equals("sí") || response.equals("si")) {
                         player.drawCard(deck);
-                        player.showHand();
+                        System.out.println(player.showHand());
                     } else if (response.equals("no")) {
                         playerWantsToContinue = false;
                     } else {
@@ -112,46 +125,12 @@ public class Game {
                 }
             }
         }
-
-        // Determinar al ganador y mostrar el resultado
-        int maxHandValue = 0;
-        String winner = "";
-        boolean isDraw = false;
-
-        for (Players player : players) {
-            int handValue = player.calculateHandValue();
-
-            if (handValue <= 21 && handValue > maxHandValue) {
-                maxHandValue = handValue;
-                winner = player.getName();
-                isDraw = false;
-            } else if (handValue <= 21 && handValue == maxHandValue) {
-                isDraw = true;
-            }
-        }
-
-        int countWinners = 0;
-        for (Players player : players) {
-            int handValue = player.calculateHandValue();
-            if (handValue == maxHandValue) {
-                countWinners++;
-            }
-        }
-
-        if (countWinners == players.length && isDraw) {
-            System.out.println("¡Es un empate! Todos los jugadores tienen la misma puntuación.");
-        } else if (!winner.isEmpty() && !isDraw) {
-            // Mostrar al ganador y el valor de su mano
-            System.out.println("\033[34m*--------------------------------------------");
-            System.out.println("\033[32m*         EL GANADOR DEL BLACKJACK ES:       ");
-            System.out.println("\033[33m*                    " + winner + "                ");
-            System.out.println("\033[32m*               CON UN VALOR DE              ");
-            System.out.println("\033[33m*                      " + maxHandValue + "      ");
-            System.out.println("\033[34m*--------------------------------------------");
-        } else {
-            System.out.println("No hay un claro ganador. Todos los jugadores se han pasado de 21 o tienen la misma puntuación.");
-        }
-
+        View.Resultado(players);
         teclado.close(); // Cerrar el scanner al finalizar el juego
     }
 }
+
+
+
+
+
