@@ -1,9 +1,5 @@
 package View;
 
-import Controller.GameController;
-import Model.Players;
-import com.sun.jdi.Value;
-
 import java.util.Scanner;
 public class View {
         /**

@@ -22,7 +22,7 @@ Este es un juego de Blackjack implementado en Java. Permite a los jugadores juga
 El proyecto consta de varios archivos:
 
 - `Main.java`: Punto de entrada del juego.
-- `GameController.java`: Controla el flujo del juego.
+- `Game.java`: Controla el flujo del juego.
 - `View.java`: Interacción con el usuario (entrada y salida).
 - `Players.java`: Representación de los jugadores.
 - `IA.java`: Lógica para la IA en el juego de Blackjack.

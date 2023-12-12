@@ -87,8 +87,6 @@ public class Players {
         if (drawnCard != null && numCards < hand.length) {
             hand[numCards] = drawnCard;
             numCards++;
-        } else {
-            System.out.println("No hay más cartas en el mazo o la mano está llena.");
         }
     }
 

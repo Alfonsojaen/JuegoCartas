@@ -1,14 +1,13 @@
-package Controller;
-
 import Model.Deck;
 import Model.IA;
 import Model.Players;
 
 import java.util.Scanner;
 
-public class GameController {
+public class Game {
     /**
      * Método para iniciar el juego.
+     *
      * @param numberOfPlayers Número de jugadores que participarán en el juego.
      */
     public static void startGame(int numberOfPlayers) {
@@ -31,8 +30,8 @@ public class GameController {
             while (!validName) {
                 try {
                     playerName = teclado.nextLine();
-                    if (playerName.matches(".*\\d+.*") || playerName.toUpperCase().contains("IA")) {
-                        throw new IllegalArgumentException("El nombre no puede contener números ni la palabra 'IA'. Introduce otro nombre:");
+                    if (playerName.matches(".*\\d+.*") ||  playerName.toUpperCase().contains("IA") || playerName.contains(" ")) {
+                        throw new IllegalArgumentException("El nombre no puede contener números, la palabra 'IA' o espacios. Introduce otro nombre:");
                     }
                     validName = true;
                 } catch (IllegalArgumentException e) {
@@ -40,8 +39,8 @@ public class GameController {
                 }
             }
 
-            players[0] = new Players(playerName, 15); // Jugador humano
-            players[1] = new Players("IA", 15); // Jugador IA
+            players[0] = new Players(playerName, 20); // Jugador humano
+            players[1] = new Players("IA", 20); // Jugador IA
         } else {
             // Creación de jugadores en caso de múltiples jugadores
             players = new Players[numberOfPlayers];
@@ -63,7 +62,7 @@ public class GameController {
                     }
                 }
 
-                players[i] = new Players(playerName, 15);
+                players[i] = new Players(playerName, 20);
             }
         }
 
@@ -72,8 +71,9 @@ public class GameController {
 
     /**
      * Método principal para ejecutar el juego.
+     *
      * @param teclado Scanner para la entrada del usuario.
-     * @param deck Mazo de cartas utilizado en el juego.
+     * @param deck    Mazo de cartas utilizado en el juego.
      * @param players Arreglo de jugadores que participan en el juego.
      */
     public static void playGame(Scanner teclado, Deck deck, Players[] players) {
@@ -116,6 +116,7 @@ public class GameController {
         // Determinar al ganador y mostrar el resultado
         int maxHandValue = 0;
         String winner = "";
+        boolean isDraw = false;
 
         for (Players player : players) {
             int handValue = player.calculateHandValue();
@@ -123,10 +124,23 @@ public class GameController {
             if (handValue <= 21 && handValue > maxHandValue) {
                 maxHandValue = handValue;
                 winner = player.getName();
+                isDraw = false;
+            } else if (handValue <= 21 && handValue == maxHandValue) {
+                isDraw = true;
             }
         }
 
-        if (!winner.isEmpty()) {
+        int countWinners = 0;
+        for (Players player : players) {
+            int handValue = player.calculateHandValue();
+            if (handValue == maxHandValue) {
+                countWinners++;
+            }
+        }
+
+        if (countWinners == players.length && isDraw) {
+            System.out.println("¡Es un empate! Todos los jugadores tienen la misma puntuación.");
+        } else if (!winner.isEmpty() && !isDraw) {
             // Mostrar al ganador y el valor de su mano
             System.out.println("\033[34m*--------------------------------------------");
             System.out.println("\033[32m*         EL GANADOR DEL BLACKJACK ES:       ");
@@ -135,7 +149,7 @@ public class GameController {
             System.out.println("\033[33m*                      " + maxHandValue + "      ");
             System.out.println("\033[34m*--------------------------------------------");
         } else {
-            System.out.println("No hay ganador. Todos los jugadores se han pasado de 21.");
+            System.out.println("No hay un claro ganador. Todos los jugadores se han pasado de 21 o tienen la misma puntuación.");
         }
 
         teclado.close(); // Cerrar el scanner al finalizar el juego
