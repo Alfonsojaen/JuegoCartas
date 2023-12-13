@@ -15,7 +15,7 @@ public static void Start() {
     // Obtener el número de jugadores utilizando el método getNumberOfPlayers() de la clase View
     int numberOfPlayers = View.getNumberOfPlayers();
     // Iniciar el juego con el número de jugadores obtenido
-    PedirNombre(numberOfPlayers);
+    StartGame(numberOfPlayers);
 
 }
     /**
@@ -23,7 +23,7 @@ public static void Start() {
      *
      * @param numberOfPlayers Número de jugadores que participarán en el juego.
      */
-    public static void PedirNombre(int numberOfPlayers) {
+    public static void StartGame(int numberOfPlayers) {
         Scanner teclado = new Scanner(System.in);
         Deck deck = new Deck();
         deck.ShuffleDeck();
@@ -66,8 +66,8 @@ public static void Start() {
                 while (!validName) {
                     try {
                         playerName = teclado.nextLine();
-                        if (playerName.matches(".*\\d+.*") || playerName.toUpperCase().contains("IA")) {
-                            throw new IllegalArgumentException("El nombre no puede contener números ni la palabra 'IA'. Introduce otro nombre:");
+                        if (playerName.matches(".*\\d+.*") || playerName.toUpperCase().contains("IA") || playerName.trim().isEmpty()) {
+                            throw new IllegalArgumentException("El nombre no puede contener números, la palabra 'IA', o ser vacío. Introduce otro nombre:");
                         }
                         validName = true;
                     } catch (IllegalArgumentException e) {
@@ -99,28 +99,36 @@ public static void Start() {
             boolean playerWantsToContinue = true; // Variable de control
 
             while (playerWantsToContinue) {
-                System.out.println("Valor de la mano de " + player.getName() + ": " + player.calculateHandValue());
+                int handValue = player.calculateHandValue();
+                System.out.println("Valor de la mano de " + player.getName() + ": " + handValue);
 
-                if (player.getName().equals("IA")) {
-                    // Si es la IA, que tome su decisión automáticamente
-                    boolean shouldHit = IA.decideHitOrStand(player);
-                    if (shouldHit) {
-                        player.drawCard(deck);
-                        System.out.println(player.showHand());
-                    } else {
-                        playerWantsToContinue = false;
-                    }
+                if (handValue == 21) {
+                    System.out.println(player.getName() + " tiene BlackJack");
+                    playerWantsToContinue = false;
+                } else if (handValue > 21) {
+                    System.out.println(player.getName() + " se ha pasado de 21.");
+                    playerWantsToContinue = false;
                 } else {
-                    System.out.println(player.getName() + ", ¿deseas otra carta? (sí/no)");
-                    String response = teclado.nextLine().toLowerCase();
-
-                    if (response.equals("sí") || response.equals("si")) {
-                        player.drawCard(deck);
-                        System.out.println(player.showHand());
-                    } else if (response.equals("no")) {
-                        playerWantsToContinue = false;
+                    if (player.getName().equals("IA")) {
+                        boolean shouldHit = IA.decideHitOrStand(player);
+                        if (shouldHit) {
+                            player.drawCard(deck);
+                            System.out.println(player.showHand());
+                        } else {
+                            playerWantsToContinue = false;
+                        }
                     } else {
-                        System.out.println("Respuesta no válida. Por favor, responde 'sí' o 'no'.");
+                        System.out.println(player.getName() + ", ¿deseas otra carta? (sí/no)");
+                        String response = teclado.nextLine().toLowerCase();
+
+                        if (response.equals("sí") || response.equals("si")) {
+                            player.drawCard(deck);
+                            System.out.println(player.showHand());
+                        } else if (response.equals("no")) {
+                            playerWantsToContinue = false;
+                        } else {
+                            System.out.println("Respuesta no válida. Por favor, responde 'sí' o 'no'.");
+                        }
                     }
                 }
             }

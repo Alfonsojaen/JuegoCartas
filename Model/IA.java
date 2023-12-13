@@ -1,7 +1,6 @@
 package Model;
 
 public class IA {
-    // Valor constante que indica cuándo la IA se planta
     private static final int IA = 18;
 
     /**
