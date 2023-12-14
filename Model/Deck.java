@@ -39,17 +39,19 @@ public class Deck {
     public Card getCardRandom() {
         int availableCount = 52;
         int usedCount = 0;
-        if (availableCount == 0) {
-            return null;
+        Card cardToReturn = null;
+
+        if (availableCount > 0) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(availableCount);
+            cardToReturn = availableCards[randomIndex];
+            availableCards[randomIndex] = null;
+            availableCount--;
+            usedCards[usedCount] = cardToReturn;
+            usedCount++;
         }
-        Random random = new Random();
-        int randomIndex = random.nextInt(availableCount);
-        Card card = availableCards[randomIndex];
-        availableCards[randomIndex] = null;
-        availableCount--;
-        usedCards[usedCount] = card;
-        usedCount++;
-        return card;
+
+        return cardToReturn;
     }
 
     // Método para barajar (shuffle) el mazo
